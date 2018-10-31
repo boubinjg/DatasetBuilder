@@ -38,6 +38,10 @@ Usage:
     different random subimages of the corn field image, and must classify them.
     Once the 250th subimage is classified, the session ends and the application closes.
     
+    If, in the middle of training, you misclassify a sample by accident, you can
+    easily find it in your yes/no directories by its sesion ID and session count (which is on the GUI).
+    Just go into the yes/no directory and move it.
+
 Please let me know if you have any questions
 -JB
 
