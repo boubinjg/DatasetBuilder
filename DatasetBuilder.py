@@ -44,6 +44,8 @@ class MainWindow():
 
         main.bind('d', self.onButtonYes)
         main.bind('f', self.onButtonNo)
+        main.bind('c', self.onButtonYes)
+        main.bind('n', self.onButtonNo)
 
     def onButtonYes(self, _event=None):
         self.origImg.save(name+"/Yes/"+name+"_"+session+"_"+str(self.count)+"_yes.jpg");
