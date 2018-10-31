@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 import sys
 import random
 root = None
+maxSamples = 250
 
 def createImage(imgFile):
     img = Image.open(imgFile)
@@ -19,7 +20,8 @@ class MainWindow():
         self.canvas.grid(row=0, column=1)
 
         # images
-        self.img = ImageTk.PhotoImage(createImage(sys.argv[1]))
+        self.origImg = createImage(image)
+        self.img = ImageTk.PhotoImage(self.origImg)
 
         # set first image on canvas
         self.image_on_canvas = self.canvas.create_image(0, 0, anchor = NW, image = self.img)
@@ -44,25 +46,43 @@ class MainWindow():
         main.bind('f', self.onButtonNo)
 
     def onButtonYes(self, _event=None):
-
+        self.origImg.save(name+"/Yes/"+name+"_"+session+"_"+str(self.count)+"_yes.jpg");
         # next image
-        self.img =  ImageTk.PhotoImage(createImage(sys.argv[1]))
+        self.origImg = createImage(image)
+        self.img =  ImageTk.PhotoImage(self.origImg)
 
         # change image
         self.canvas.itemconfig(self.image_on_canvas, image = self.img)
         self.count = self.count + 1
+
+        if(self.count > maxSamples):
+            quit(self)
 
         self.label.config(text=self.labelstring+str(self.count))
 
     def onButtonNo(self, _event=None):
-         # next image
-        self.img =  ImageTk.PhotoImage(createImage(sys.argv[1]))
+        self.origImg.save(name+"/No/"+name+"_"+session+"_"+str(self.count)+"_no.jpg");
+
+        # next image
+        self.origImg = createImage(image)
+        self.img =  ImageTk.PhotoImage(self.origImg)
 
         # change image
         self.canvas.itemconfig(self.image_on_canvas, image = self.img)
         self.count = self.count + 1
 
+        if(self.count > maxSamples):
+            quit(self)
+
+
         self.label.config(text=self.labelstring+str(self.count))
+
+    def quit(self):
+        root.destroy()
+
+image = sys.argv[1]
+name = sys.argv[2]
+session = sys.argv[3]
 
 root = Tk()
 root.title("Dataset Builder")
